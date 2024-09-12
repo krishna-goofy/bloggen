@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Blog Generator</title>
+</head>
+<body>
+    <h1>AI-Powered Blog Generator</h1>
+    <form id="blog-form">
+        <label for="topic">Blog Topic:</label>
+        <input type="text" id="topic" name="topic" required>
+
+        <label for="style">Writing Style:</label>
+        <select id="style" name="style">
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="technical">Technical</option>
+            <option value="research">Research</option>
+        </select>
+
+        <button type="submit">Generate Blog</button>
+    </form>
+
+    <div id="result">
+        <h2>Generated Blog</h2>
+        <p id="blog-content"></p>
+    </div>
+
+    <script>
+        document.getElementById('blog-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const topic = document.getElementById('topic').value;
+            const style = document.getElementById('style').value;
+
+            fetch('/generate-blog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ topic, style })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('blog-content').innerText = data.blog_content;
+            });
+        });
+    </script>
+</body>
+</html>
